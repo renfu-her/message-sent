@@ -20,6 +20,7 @@ class MailController extends Controller
     {
         // 验证请求数据
         $request->validate([
+            'app_name' => 'required|string',
             'emails' => 'required|array', // 接受多个 email
             'emails.*' => 'required|email', // 每个 email 必须是有效的
             'subject' => 'required|string',
@@ -35,7 +36,7 @@ class MailController extends Controller
         // 动态设置邮件用户名和密码
         Config::set('mail.username', $request->input('mail_username'));
         Config::set('mail.password', $request->input('mail_password'));
-
+        Config::set('app.name', $request->input('app_name'));
         $emails = $request->input('emails');
         $subject = $request->input('subject');
         $messageContent = $request->input('message');
