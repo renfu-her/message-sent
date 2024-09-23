@@ -33,7 +33,8 @@ class CustomMail extends Mailable
     public function build()
     {
         return $this->subject($this->subjectText)
-            ->view('emails.custom_mail') // 使用 Blade 模板来渲染邮件
+            ->html($this->messageContent) // 使用 HTML 內容來渲染郵件
+            ->view('emails.custom_mail') // 使用 Blade 模板來渲染郵件
             ->with([
                 'messageContent' => $this->messageContent,
             ]);
