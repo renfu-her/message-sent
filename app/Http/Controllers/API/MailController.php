@@ -26,6 +26,10 @@ class MailController extends Controller
             'message' => 'required|string',
             'mail_username' => 'required|string', // 邮件用户名
             'mail_password' => 'required|string', // 邮件密码
+            'cc' => 'array', // 可选的 cc 字段
+            'cc.*' => 'email', // 每个 cc 必须是有效的 email
+            'bcc' => 'array', // 可选的 bcc 字段
+            'bcc.*' => 'email', // 每个 bcc 必须是有效的 email
         ]);
 
         // 动态设置邮件用户名和密码
@@ -35,10 +39,24 @@ class MailController extends Controller
         $emails = $request->input('emails');
         $subject = $request->input('subject');
         $messageContent = $request->input('message');
+        $cc = $request->input('cc', []); // 获取 cc 字段，默认为空数组
+        $bcc = $request->input('bcc', []); // 获取 bcc 字段，默认为空数组
 
         // 遍历所有收件人并发送邮件
         foreach ($emails as $email) {
-            Mail::to($email)->send(new CustomMail($messageContent, $subject, 'text/html'));
+            $mail = Mail::to($email);
+
+            // 如果存在 cc 字段，则添加 cc 地址
+            if (!empty($cc)) {
+                $mail->cc($cc);
+            }
+
+            // 如果存在 bcc 字段，则添加 bcc 地址
+            if (!empty($bcc)) {
+                $mail->bcc($bcc);
+            }
+
+            $mail->send(new CustomMail($messageContent, $subject));
         }
 
         // 返回成功响应
