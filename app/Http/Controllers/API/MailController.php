@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Config;
 
 class MailController extends Controller
 {
@@ -23,7 +24,13 @@ class MailController extends Controller
             'emails.*' => 'required|email', // 每个 email 必须是有效的
             'subject' => 'required|string',
             'message' => 'required|string',
+            'mail_username' => 'required|string', // 邮件用户名
+            'mail_password' => 'required|string', // 邮件密码
         ]);
+
+        // 动态设置邮件用户名和密码
+        Config::set('mail.username', $request->input('mail_username'));
+        Config::set('mail.password', $request->input('mail_password'));
 
         $emails = $request->input('emails');
         $subject = $request->input('subject');
