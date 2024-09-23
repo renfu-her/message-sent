@@ -26,6 +26,8 @@ class MailController extends Controller
             'message' => 'required|string',
             'mail_username' => 'required|string', // 邮件用户名
             'mail_password' => 'required|string', // 邮件密码
+            'from_email' => 'required|email', // 发件人邮箱
+            'from_name' => 'required|string', // 发件人名称
             'cc' => 'array', // 可选的 cc 字段
             'cc.*' => 'email', // 每个 cc 必须是有效的 email
             'bcc' => 'array', // 可选的 bcc 字段
@@ -35,9 +37,12 @@ class MailController extends Controller
         // 动态设置邮件用户名和密码
         Config::set('mail.username', $request->input('mail_username'));
         Config::set('mail.password', $request->input('mail_password'));
+
         $emails = $request->input('emails');
         $subject = $request->input('subject');
         $messageContent = $request->input('message');
+        $fromEmail = $request->input('from_email');
+        $fromName = $request->input('from_name');
         $cc = $request->input('cc', []); // 获取 cc 字段，默认为空数组
         $bcc = $request->input('bcc', []); // 获取 bcc 字段，默认为空数组
 
@@ -55,7 +60,7 @@ class MailController extends Controller
                 $mail->bcc($bcc);
             }
 
-            $mail->send(new CustomMail($messageContent, $subject));
+            $mail->send(new CustomMail($messageContent, $subject, $fromEmail, $fromName));
         }
 
         // 返回成功响应
