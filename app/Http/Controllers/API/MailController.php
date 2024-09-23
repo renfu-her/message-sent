@@ -20,7 +20,6 @@ class MailController extends Controller
     {
         // 验证请求数据
         $request->validate([
-            'from' => 'required|array',
             'emails' => 'required|array', // 接受多个 email
             'emails.*' => 'required|email', // 每个 email 必须是有效的
             'subject' => 'required|string',
@@ -38,7 +37,6 @@ class MailController extends Controller
         Config::set('mail.password', $request->input('mail_password'));
         $emails = $request->input('emails');
         $subject = $request->input('subject');
-        $from = $request->input('from');
         $messageContent = $request->input('message');
         $cc = $request->input('cc', []); // 获取 cc 字段，默认为空数组
         $bcc = $request->input('bcc', []); // 获取 bcc 字段，默认为空数组
@@ -59,7 +57,7 @@ class MailController extends Controller
                 $mail->bcc($bcc);
             }
 
-            $mail->send(new CustomMail($messageContent, $subject, $from));
+            $mail->send(new CustomMail($messageContent, $subject));
         }
 
         // 返回成功响应
