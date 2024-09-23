@@ -18,7 +18,7 @@ class CustomMail extends Mailable
      * @param string $messageContent
      * @param string $subjectText
      */
-    public function __construct($messageContent, $subjectText, $from)
+    public function __construct($messageContent, $subjectText)
     {
         $this->messageContent = $messageContent;
         $this->subjectText = $subjectText;
