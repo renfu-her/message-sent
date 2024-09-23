@@ -35,7 +35,6 @@ class CustomMail extends Mailable
     public function build()
     {
 
-        dd($this->from);
         return $this->subject($this->subjectText)
             ->from($this->from)
             ->html($this->messageContent) // 使用 HTML 內容來渲染郵件
