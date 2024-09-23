@@ -58,6 +58,7 @@ class MailController extends Controller
             }
 
             $mail->send(new CustomMail($messageContent, $subject, $from));
+            dd($mail->send(new CustomMail($messageContent, $subject, $from)));
         }
 
         // 返回成功响应
