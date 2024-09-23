@@ -31,7 +31,6 @@ class MailController extends Controller
 
         // 遍历所有收件人并发送邮件
         foreach ($emails as $email) {
-            echo $email;
             Mail::to($email)->send(new CustomMail($messageContent, $subject));
         }
 
