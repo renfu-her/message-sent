@@ -45,7 +45,7 @@ class MailController extends Controller
         $fromName = $request->input('from_name');
         $cc = $request->input('cc', []); // 获取 cc 字段，默认为空数组
         $bcc = $request->input('bcc', []); // 获取 bcc 字段，默认为空数组
-
+        
         // 遍历所有收件人并发送邮件
         foreach ($emails as $email) {
             $mail = Mail::to($email);
@@ -61,6 +61,7 @@ class MailController extends Controller
             }
 
             $mail->send(new CustomMail($messageContent, $subject, $fromEmail, $fromName));
+            dd($mail);
         }
 
         // 返回成功响应
