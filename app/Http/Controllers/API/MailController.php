@@ -61,7 +61,7 @@ class MailController extends Controller
             }
 
             $mail->send(new CustomMail($messageContent, $subject, $fromEmail, $fromName));
-            dd($mail);
+            // dd($mail);
         }
 
         // 返回成功响应
